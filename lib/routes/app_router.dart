@@ -8,6 +8,11 @@ import '../views/home/home_screen.dart';
 import '../views/groups/groups_screen.dart';
 import '../views/reports/reports_screen.dart';
 import '../views/settings/settings_screen.dart';
+import '../views/restaurant_split/mode_selection_screen.dart';
+import '../views/restaurant_split/quick_split_input_screen.dart';
+import '../views/restaurant_split/quick_split_result_screen.dart';
+import '../view_models/restaurant/quick_split_view_model.dart';
+import '../models/restaurant/quick_split_model.dart';
 
 /// App Router
 /// Handles navigation routes for SmartSplit
@@ -26,7 +31,12 @@ class AppRouter {
   static const String groups = '/groups';
   static const String reports = '/reports';
   static const String settingsRoute = '/settings';
+  
+  // Restaurant Split routes
   static const String restaurantSplit = '/restaurant-split';
+  static const String modeSelection = '/mode-selection';
+  static const String quickSplitInput = '/quick-split-input';
+  static const String quickSplitResult = '/quick-split-result';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -58,7 +68,16 @@ class AppRouter {
         return _createSlideRoute(const SettingsScreen());
       
       case restaurantSplit:
-        return _createSlideRoute(_buildPlaceholder('Restaurant Split'));
+      case modeSelection:
+        return _createSlideRoute(const ModeSelectionScreen());
+      
+      case quickSplitInput:
+        final existingSplit = settings.arguments as QuickSplitModel?;
+        return _createSlideRoute(QuickSplitInputScreen(existingSplit: existingSplit));
+      
+      case quickSplitResult:
+        final viewModel = settings.arguments as QuickSplitViewModel;
+        return _createSlideRoute(QuickSplitResultScreen(viewModel: viewModel));
       
       default:
         return MaterialPageRoute(
@@ -104,19 +123,6 @@ class AppRouter {
         );
       },
       transitionDuration: const Duration(milliseconds: 300),
-    );
-  }
-  
-  /// Build placeholder screen for unimplemented routes
-  static Widget _buildPlaceholder(String title) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: const Color(0xFF00B4D8),
-      ),
-      body: Center(
-        child: Text('$title - Coming Soon'),
-      ),
     );
   }
 }

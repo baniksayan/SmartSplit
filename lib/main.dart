@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'models/user/user_model.dart';
 import 'models/activity/activity_model.dart';
+import 'models/restaurant/quick_split_model.dart';
 import 'services/database/activity_service.dart';
+import 'services/database/quick_split_history_service.dart';
 import 'routes/app_router.dart';
 
 /// SmartSplit - Intelligent Expense Splitting & Tracking
@@ -17,9 +19,11 @@ void main() async {
   // Register Hive adapters
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(ActivityModelAdapter());
+  Hive.registerAdapter(QuickSplitModelAdapter()); // typeId: 2
   
   // Initialize services
   await ActivityService.init();
+  await QuickSplitHistoryService.init();
 
   // Set preferred orientations (portrait only for better UX)
   await SystemChrome.setPreferredOrientations([
