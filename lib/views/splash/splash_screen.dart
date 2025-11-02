@@ -186,7 +186,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   /// Navigate to appropriate screen after 3 seconds
-  /// First launch → Onboarding
+  /// First launch → Welcome Slides → Profile Setup → Theme Selection → Permissions → Home
   /// Returning user → Home
   Future<void> _navigateAfterDelay() async {
     await Future.delayed(const Duration(milliseconds: 3000));
@@ -205,9 +205,9 @@ class _SplashScreenState extends State<SplashScreen>
         // Mark as not first launch
         await box.put('isFirstLaunch', false);
         
-        // Navigate to onboarding
+        // Navigate to welcome slides (start of onboarding flow)
         if (mounted) {
-          Navigator.of(context).pushReplacementNamed('/onboarding');
+          Navigator.of(context).pushReplacementNamed('/welcome-slides');
         }
       } else {
         // Navigate to home
@@ -216,10 +216,10 @@ class _SplashScreenState extends State<SplashScreen>
         }
       }
     } catch (e) {
-      // Fallback to onboarding if there's an error
+      // Fallback to welcome slides if there's an error
       debugPrint('Error checking first launch: $e');
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/onboarding');
+        Navigator.of(context).pushReplacementNamed('/welcome-slides');
       }
     }
   }
