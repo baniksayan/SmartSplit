@@ -5,6 +5,9 @@ import '../views/onboarding/profile_setup_screen.dart';
 import '../views/onboarding/theme_selection_screen.dart';
 import '../views/onboarding/permissions_screen.dart';
 import '../views/home/home_screen.dart';
+import '../views/groups/groups_screen.dart';
+import '../views/reports/reports_screen.dart';
+import '../views/settings/settings_screen.dart';
 
 /// App Router
 /// Handles navigation routes for SmartSplit
@@ -18,6 +21,12 @@ class AppRouter {
   static const String profileSetup = '/profile-setup';
   static const String themeSelection = '/theme-selection';
   static const String permissions = '/permissions';
+  
+  // Feature routes
+  static const String groups = '/groups';
+  static const String reports = '/reports';
+  static const String settingsRoute = '/settings';
+  static const String restaurantSplit = '/restaurant-split';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -38,6 +47,18 @@ class AppRouter {
       
       case home:
         return _createFadeRoute(const HomeScreen());
+      
+      case groups:
+        return _createSlideRoute(const GroupsScreen());
+      
+      case reports:
+        return _createSlideRoute(const ReportsScreen());
+      
+      case settingsRoute:
+        return _createSlideRoute(const SettingsScreen());
+      
+      case restaurantSplit:
+        return _createSlideRoute(_buildPlaceholder('Restaurant Split'));
       
       default:
         return MaterialPageRoute(
@@ -83,6 +104,19 @@ class AppRouter {
         );
       },
       transitionDuration: const Duration(milliseconds: 300),
+    );
+  }
+  
+  /// Build placeholder screen for unimplemented routes
+  static Widget _buildPlaceholder(String title) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: const Color(0xFF00B4D8),
+      ),
+      body: Center(
+        child: Text('$title - Coming Soon'),
+      ),
     );
   }
 }
